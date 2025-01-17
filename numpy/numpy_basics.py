@@ -1,10 +1,7 @@
 from numpy import *
 import numpy as np
 
-# working with salaries of employees
-
-
-#linspace function uses
+#LINSPACE function uses
 employee_salaries = linspace(30000,70000,10)
 print(employee_salaries)  # Prints salaries in floating-point format with evenly spaced numbers
     #output : [30000.         34444.44444444 38888.88888889 43333.33333333 47777.77777778 52222.22222222 56666.66666667 61111.11111111 65555.55555556 70000.        ]
