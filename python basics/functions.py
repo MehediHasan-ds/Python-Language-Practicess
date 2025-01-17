@@ -33,3 +33,13 @@ orders = [100, 250, 600, 1200, 50]
 high_value_orders = list(filter(lambda x: x > 500, orders))
 print(high_value_orders)
 
+#MAP and REDUCE: Calculating the discounted prices of all items
+from functools import reduce
+prices = [100, 200, 300, 400]
+discounted_prices = list(map(lambda price: price * 0.9, prices))
+total_discounted_price = reduce(lambda x, y: x + y, discounted_prices)
+print(discounted_prices)
+print(total_discounted_price)
+
+
+
