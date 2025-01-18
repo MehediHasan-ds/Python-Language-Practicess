@@ -1,45 +1,35 @@
-from functools import partial
-from datetime import datetime
+# Custom decorator for logging actions
+def log_action(func):
+    def wrapper(*args, **kwargs):
+        print(f"🔍 Logging: {func.__name__} called with args: {args}, kwargs: {kwargs}")
+        result = func(*args, **kwargs)
+        print(f"✅ Action logged for: {args[0]['name']}")
+        return result
+    return wrapper
 
-# Base report generation function
-def generate_report(report_type, report_data, start_date, end_date):
-    report_header = f"*** {report_type.upper()} REPORT ***\n"
-    report_header += f"Period: {start_date} to {end_date}\nGenerated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
-    report_content = f"Details:\n{report_data}\n"
-    return report_header + report_content
+# Custom decorator for sending notifications
+def notify_high_value_lead(func):
+    def wrapper(*args, **kwargs):
+        lead = args[0]  # The lead being processed
+        result = func(*args, **kwargs)
+        if lead.get("deal_size", 0) >= 1_000_000:
+            print(f"📧 Notification: High-value lead added: {lead['name']} (${lead['deal_size']:,})")
+        return result
+    return wrapper
 
-# Partial functions for specific report types
-customer_sales_report = partial(generate_report, "Customer Sales")
-product_performance_report = partial(generate_report, "Product Performance")
-revenue_summary_report = partial(generate_report, "Revenue Summary")
+# CRM system function to add a lead
+@log_action
+@notify_high_value_lead
+def add_lead_to_crm(lead):
+    print(f"🚀 Lead added to CRM: {lead['name']} at {lead['company']}")
+    return lead
 
-# Example report data
-customer_sales_data = "Customer: rossi | Total Purchases: $500"
-product_performance_data = "Product: Laptop | Units Sold: 300"
-revenue_summary_data = "Total Revenue: $150,000"
+leads = [
+    {"name": "Sumaiya Ahmed", "company": "Pathao", "position": "CEO", "deal_size": 2_000_000, "industry": "Telecom"},
+    {"name": "Tanvir Ahmed", "company": "Grameenphone", "position": "CFO", "deal_size": 800_000, "industry": "Telecom"},
+    {"name": "Nusrat Jahan", "company": "bKash", "position": "CEO", "deal_size": 1_500_000, "industry": "FinTech"},
+]
 
-# Generate reports by only providing remaining arguments (data and date range)
-customer_sales = customer_sales_report(
-    report_data=customer_sales_data,
-    start_date="2025-01-01",
-    end_date="2025-01-15"
-)
-
-product_performance = product_performance_report(
-    report_data=product_performance_data,
-    start_date="2025-01-01",
-    end_date="2025-01-15"
-)
-
-revenue_summary = revenue_summary_report(
-    report_data=revenue_summary_data,
-    start_date="2025-01-01",
-    end_date="2025-01-15"
-)
-
-# Print reports
-print(customer_sales)
-print("\n" + "=" * 35 + "\n")
-print(product_performance)
-print("\n" + "=" * 35 + "\n")
-print(revenue_summary)
+# Adding leads to CRM
+for lead in leads:
+    add_lead_to_crm(lead)
