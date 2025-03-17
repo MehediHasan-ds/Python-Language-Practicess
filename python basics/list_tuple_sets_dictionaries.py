@@ -101,5 +101,17 @@ for index, (key, values) in enumerate(PRODUCT_SUBCATEGORIES.items(),start=1):
     for value in values:
         print(value)
 
+# print the available brands for each subcategory under each category
+for cat_index, (category,subcategory) in enumerate(PRODUCT_SUBCATEGORIES.items(),start=1):
+    for sub_index, subcat in enumerate(subcategory,start=1):
+        print(f'category_id-{cat_index}, category name-{category} subcategory_id-{sub_index}, subcategory name-{subcat}')
+
+# which brand falls into which category and subcategory
+for cat_index, (category,subcategory) in enumerate(PRODUCT_SUBCATEGORIES.items(),start=1):
+    for sub_index, subcat in enumerate(subcategory,start=1):
+        for subcat_idx,(_,brands) in enumerate(BRANDS.items()):
+            for brand_idx, brand in enumerate(brands,start=1):
+                print(f'category_id-{cat_index}, category name-{category} subcategory_id-{sub_index}, subcategory name-{subcat}, brand-{brand}')
+
 
 
